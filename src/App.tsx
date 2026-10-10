@@ -67,7 +67,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <header className="topbar">
+      <header className="topbar ae-nav">
         <div className="topbar-inner">
           <a className="brand" href={href('')}>
             <BrandMark />
@@ -98,7 +98,8 @@ export default function App() {
         {section === 'info' && <InfoPage topic={route.path[1] ?? 'heutige-franken'} />}
       </main>
 
-      <footer className="footer">
+      <hr className="ae-horizon page-horizon" aria-hidden="true" />
+      <footer className="footer ae-pattern ae-pattern--schindel">
         <div className="footer-inner">
           <span>
             Finanzkompass ist ein kostenloses Planungswerkzeug und keine Finanz-, Steuer- oder Anlageberatung. Alle Angaben ohne Gewähr.

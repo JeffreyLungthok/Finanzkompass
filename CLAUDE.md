@@ -1,8 +1,11 @@
 # Finanzkompass
 
-This site uses the Alpine Earth design system. Its tokens (`--ae-*`) and the app tokens derived from them live at the top of `src/styles.css`. Build UI with those tokens and the existing classes (`.panel`, `.btn`, `.ae-textured`, …); see the alpine-earth skill.
+This site uses the Alpine Earth design system (`public/alpine-earth/`, linked in `index.html`). Build UI with its `ae-` classes and tokens; see the alpine-earth skill. Don't edit files in `public/alpine-earth/` to restyle the app: changes to the system go back into the design-system repo and a new kit.
 
-- Primary actions are forest (`--primary`). Wegweiser yellow (`--sign`) is only for signage: the `Signpost` component, the brand mark and the retirement marker in the chart.
-- Texture (`ae-textured ae-textured--paper|linen|clay`) goes on featured surfaces only: hero, verdict, live summary, empty states, the journey card header. Forms, tables and charts stay solid.
-- Fonts: Source Sans 3 (UI) and Source Serif 4 (`.display`, used once per page).
+- `src/styles.css` holds only the app tokens (derived from the kit's `--ae-*` tokens) and the app's own components.
+- Materials: `ae-surface--paper` for featured items (verdict, live summary, empty states), `--fiber`, `--linen` and `--kraft` for sheets that sit side by side, linen in the nav and table headers. Forms, charts and data stay on plain white sheets.
+- Patterns and trims: contour lines in the hero, schindel pattern in the footer, Tibetan key trim on the start page, tibeb hem under the nav. At most two trims per screen.
+- Illustrations: `alpine-collage` in the hero (torn edge), `ridge-horizon` above the footer, `ridge-stone` on the journey intro, dried grass on empty states.
+- Links to places are Wegweiser signs (`Signpost` component or `ae-wegweiser`); actions are `.btn`. Wegweiser yellow is only for signage.
+- Text on materials is full ink; `.muted` uses `--ink-2` because the canvas is paper.
 - Chart series colours (`--s-*`) were checked with a colour-vision validator for both themes; re-check them if you change any.

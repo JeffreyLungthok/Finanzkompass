@@ -105,7 +105,7 @@ function LiveSummary({ plan, ctx }: { plan: Plan; ctx: TaxContext | null }) {
 
   return (
     <aside className="live" aria-label="Zusammenfassung">
-      <div className="live-card ae-textured ae-textured--paper sheet">
+      <div className="live-card ae-surface ae-surface--paper ae-stitched">
         <h3>Dein Jahr {plan.startYear}</h3>
         {!plan.location && <p className="small" style={{ opacity: 0.8 }}>Wähle deinen Wohnort, damit die Steuern berechnet werden können.</p>}
         {data && (

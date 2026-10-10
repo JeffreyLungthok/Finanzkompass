@@ -12,10 +12,6 @@
     "steuerdaten": "node scripts/import-tax-data.mjs"
   },
   "dependencies": {
-    "@fontsource/atkinson-hyperlegible-next": "^5.3.0",
-    "@fontsource/barlow-condensed": "^5.3.0",
-    "@fontsource/source-sans-3": "^5.3.0",
-    "@fontsource/source-serif-4": "^5.3.0",
     "lucide-react": "^1.52.0",
     "lz-string": "^1.5.0",
     "react": "^19.2.8",

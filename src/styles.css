@@ -1,218 +1,78 @@
-/* Finanzkompass – Gestaltung nach Alpine Earth: warmes Papier und Kalkstein, Wald- und Mineralfarben,
-   Schweizer Raster und Typografie, Papier- und Leinenstruktur auf ausgewählten Flächen.
-   Wegweiser-Gelb bleibt der Signalisation vorbehalten (Wegweiser, Marke). */
-
-@import '@fontsource/source-sans-3/400.css';
-@import '@fontsource/source-sans-3/500.css';
-@import '@fontsource/source-sans-3/600.css';
-@import '@fontsource/source-sans-3/700.css';
-@import '@fontsource/source-serif-4/600.css';
-
-/* ---------- Alpine Earth: Grundtokens ---------- */
+/* Finanzkompass – Gestaltung nach Alpine Earth.
+   Grundlage ist das Kit in public/alpine-earth/ (tokens.css, alpine-earth.css, Schriften, Materialien,
+   Muster, Illustrationen), eingebunden in index.html. Hier stehen nur die Anwendungstokens, abgeleitet
+   von den --ae-*-Tokens des Kits, und die Komponenten der App. Das Kit selbst nicht ändern. */
 
 :root {
-  color-scheme: light;
-
-  /* Farbe: Grundlagen */
-  --ae-color-paper: #F7F5EF;
-  --ae-color-surface: #FFFFFF;
-  --ae-color-limestone: #E9E5DA;
-  --ae-color-border: #D8D4C9;
-
-  /* Farbe: Text */
-  --ae-color-ink: #292B28;
-  --ae-color-ink-muted: #686B63;
-  --ae-color-ink-inverse: #FFFFFF;
-
-  /* Farbe: Identität */
-  --ae-color-forest: #526451;
-  --ae-color-forest-deep: #3D4C3D;
-  --ae-color-maroon: #704653;
-  --ae-color-ochre: #B18445;
-  --ae-color-clay: #A85F48;
-  --ae-color-indigo: #48556D;
-
-  /* Farbe: Status */
-  --ae-color-success: #42684F;
-  --ae-color-warning: #956B2D;
-  --ae-color-danger: #A3433D;
-  --ae-color-info: #435F77;
-
-  /* Typografie */
-  --ae-font-sans: 'Source Sans 3', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --ae-font-serif: 'Source Serif 4', Georgia, serif;
-
-  /* Abstände: 4px-Rhythmus */
-  --ae-space-1: 0.25rem;
-  --ae-space-2: 0.5rem;
-  --ae-space-3: 0.75rem;
-  --ae-space-4: 1rem;
-  --ae-space-5: 1.25rem;
-  --ae-space-6: 1.5rem;
-  --ae-space-8: 2rem;
-  --ae-space-10: 2.5rem;
-  --ae-space-12: 3rem;
-  --ae-space-16: 4rem;
-
-  /* Geometrie */
-  --ae-radius-sm: 0.25rem;
-  --ae-radius-md: 0.5rem;
-  --ae-radius-lg: 0.75rem;
-  --ae-radius-xl: 1rem;
-
-  /* Schatten */
-  --ae-shadow-sm: 0 1px 2px rgb(41 43 40 / 6%);
-  --ae-shadow-md: 0 6px 20px rgb(41 43 40 / 8%);
-
-  /* Material */
-  --ae-texture-intensity-whisper: 0.04;
-  --ae-texture-intensity-standard: 0.09;
-  --ae-texture-intensity-expressive: 0.14;
-  --ae-surface-clay: color-mix(in srgb, var(--ae-color-clay) 25%, var(--ae-color-paper));
-
-  /* Eingebaute Strukturen (prozedurales SVG); durch echte Dateien ersetzbar */
-  --ae-texture-paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='a' x='0' y='0' width='100%' height='100%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.17 0 0 0 0 0.16 0 0 0 1.5 -0.3'/%3E%3C/filter%3E%3Cfilter id='t' x='0' y='0' width='100%' height='100%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.018' numOctaves='3' seed='6' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.17 0 0 0 0 0.16 0 0 0 1.8 -0.55'/%3E%3C/filter%3E%3Cfilter id='k' x='0' y='0' width='100%' height='100%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.35' numOctaves='1' seed='14' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.17 0 0 0 0 0.16 0 0 0 14 -8.6'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23a)'/%3E%3Crect width='100%' height='100%' filter='url(%23t)'/%3E%3Crect width='100%' height='100%' filter='url(%23k)'/%3E%3C/svg%3E");
-  --ae-texture-linen: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='w' x='0' y='0' width='100%' height='100%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9 .045' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.17 0 0 0 0 0.16 0 0 0 2.2 -0.55'/%3E%3C/filter%3E%3Cfilter id='h' x='0' y='0' width='100%' height='100%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.045 .9' numOctaves='2' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.17 0 0 0 0 0.16 0 0 0 2.2 -0.55'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23w)'/%3E%3Crect width='100%' height='100%' filter='url(%23h)'/%3E%3C/svg%3E");
-  --ae-texture-clay: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='c' x='0' y='0' width='100%' height='100%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.045' numOctaves='4' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.17 0 0 0 0 0.16 0 0 0 1.9 -0.55'/%3E%3C/filter%3E%3Cfilter id='s' x='0' y='0' width='100%' height='100%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='12' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.17 0 0 0 0 0.16 0 0 0 1.5 -0.35'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23c)'/%3E%3Crect width='100%' height='100%' filter='url(%23s)'/%3E%3C/svg%3E");
-  --ae-texture-wood: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='r' x='0' y='0' width='100%' height='100%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006 .22' numOctaves='3' seed='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.17 0 0 0 0 0.16 0 0 0 3.0 -1.15'/%3E%3C/filter%3E%3Cfilter id='t' x='0' y='0' width='100%' height='100%'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.02 .9' numOctaves='2' seed='17' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.17 0 0 0 0 0.16 0 0 0 1.6 -0.6'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23r)'/%3E%3Crect width='100%' height='100%' filter='url(%23t)'/%3E%3C/svg%3E");
-
-  /* Bewegung */
-  --ae-duration-fast: 120ms;
-  --ae-duration-normal: 200ms;
-  --ae-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-
-  /* ---------- Anwendungstokens, abgeleitet ---------- */
-  --paper: var(--ae-color-paper);
-  --surface: var(--ae-color-surface);
   --surface-2: #F0EDE4;
-  --limestone: var(--ae-color-limestone);
-  --ink: var(--ae-color-ink);
   --ink-2: #4A4C47;
-  --muted: var(--ae-color-ink-muted);
-  --line: var(--ae-color-border);
-  /* Kontrollränder brauchen 3:1 (WCAG 1.4.11) */
-  --line-strong: #83847B;
-  --primary: var(--ae-color-forest);
-  --primary-hover: var(--ae-color-forest-deep);
-  --on-primary: var(--ae-color-ink-inverse);
-  --link: var(--ae-color-forest-deep);
-  --focus: var(--ae-color-forest-deep);
-  --accent: var(--ae-color-ochre);
-  --accent-2: var(--ae-color-maroon);
-  /* Signalisation: nur Wegweiser und Marke */
-  --sign: #F2C200;
-  --sign-deep: #D9AD00;
-  --sign-ink: #1D2B33;
-  --post: #8A8C82;
-  --good: var(--ae-color-success);
   --good-bg: #E3EBE2;
-  --note: var(--ae-color-warning);
   --note-bg: #FFFFFF;
-  --warn: var(--ae-color-danger);
   --warn-bg: #F6E4E0;
   /* Diagramme: Alpine-Earth-Töne mit genug Sättigung, geprüft auf Farbfehlsichtigkeit */
   --s-lohn: #2F66AA;
   --s-pk: #B3781C;
   --s-ahv: #45975F;
   --s-verm: #86325E;
-  --band: var(--ae-color-indigo);
-  --contour: var(--ae-color-clay);
-  --shadow: var(--ae-shadow-sm), var(--ae-shadow-md);
-  --radius-s: var(--ae-radius-sm);
-  --radius-m: var(--ae-radius-md);
-  --radius-l: var(--ae-radius-lg);
-  --font-ui: var(--ae-font-sans);
-  --font-display: var(--ae-font-serif);
-  --font-sign: var(--ae-font-sans);
   --gutter: clamp(16px, 4vw, 40px);
-  --texture-filter: none;
 }
-
-/* Nacht: dunkler Stein, gleiche Rollen; Struktur hell statt dunkel */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    color-scheme: dark;
-    --paper: #1B1F1B;
-    --surface: #232823;
-    --surface-2: #2A2F29;
-    --limestone: #2F342E;
-    --ink: #ECE9E0;
+    --surface-2: #2E322C;
     --ink-2: #CDCBC1;
-    --muted: #A9AA9F;
-    --line: #3A4038;
-    --line-strong: #7D8077;
-    --primary: var(--ae-color-forest);
-    --primary-hover: #627861;
-    --on-primary: #FFFFFF;
-    --link: #A9C4A5;
-    --focus: #A9C4A5;
-    --accent: #C99A58;
-    --accent-2: #C08A9A;
-    --sign: #E8BB06;
-    --sign-deep: #C9A000;
-    --sign-ink: #141C20;
-    --post: #6C6F66;
-    --good: #8FC09B;
     --good-bg: #213027;
-    --note: #DDB36E;
     --note-bg: #2C2A22;
-    --warn: #EE9C93;
     --warn-bg: #3A2522;
     --s-lohn: #5A88C8;
     --s-pk: #BC8536;
     --s-ahv: #43936A;
     --s-verm: #A0507E;
-    --band: #8496B8;
-    --contour: #C98A73;
-    --ae-surface-clay: #3A2E29;
-    --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 10px 30px -18px rgb(0 0 0 / 80%);
-    --texture-filter: invert(1);
-    --ae-texture-intensity-standard: 0.06;
   }
 }
-/* ---------- Material: Papier, Leinen, Ton ---------- */
 
-.ae-textured {
-  position: relative;
-  isolation: isolate;
-  background: var(--ae-surface, var(--paper));
-  color: var(--ink);
+/* Helle Materialien bleiben in beiden Themen hell: auch die App-eigenen Flächentöne */
+.ae-surface--fiber,
+.ae-surface--linen,
+.ae-surface--kraft,
+.topbar {
+  --surface-2: #F0EDE4;
+  --ink-2: #4A4C47;
+  --good-bg: #E3EBE2;
+  --note-bg: #FFFFFF;
+  --warn-bg: #F6E4E0;
 }
-.ae-textured::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  pointer-events: none;
-  background-image: var(--ae-texture, var(--ae-texture-paper));
-  background-repeat: repeat;
-  opacity: var(--ae-texture-opacity, var(--ae-texture-intensity-standard));
-  filter: var(--texture-filter);
-}
-.ae-textured--paper {
-  --ae-surface: var(--paper);
-  --ae-texture: var(--ae-texture-paper);
-}
-.ae-textured--linen {
-  --ae-surface: var(--limestone);
-  --ae-texture: var(--ae-texture-linen);
-}
-.ae-textured--clay {
-  --ae-surface: var(--ae-surface-clay);
-  --ae-texture: var(--ae-texture-clay);
-}
-.ae-textured--whisper {
-  --ae-texture-opacity: var(--ae-texture-intensity-whisper);
-}
-.ae-textured--expressive {
-  --ae-texture-opacity: var(--ae-texture-intensity-expressive);
-}
-/* Papierblatt: Struktur mit Rand und leichtem Blattschatten */
-.sheet {
-  border: 1px solid var(--line);
-  border-radius: var(--radius-l);
-  box-shadow: var(--ae-shadow-sm);
+
+/* Abgeleitete Tokens. Auf * gesetzt statt auf :root, damit sie innerhalb heller Materialien
+   (Leinen, Kraft, Navigation), die das Kit im Nachtmodus auf Papierwerte zurücksetzt, mitziehen. */
+* {
+  --paper: var(--ae-color-paper);
+  --surface: var(--ae-color-surface);
+  --limestone: var(--ae-color-limestone);
+  --ink: var(--ae-color-ink);
+  --muted: var(--ae-color-ink-muted);
+  --line: var(--ae-color-border);
+  --line-strong: var(--ae-color-border-strong);
+  --primary: var(--ae-color-forest);
+  --primary-hover: var(--ae-color-forest-deep);
+  --on-primary: var(--ae-color-ink-inverse);
+  --link: var(--ae-color-forest-deep);
+  --focus: var(--ae-color-forest-deep);
+  --accent: var(--ae-color-ochre);
+  --good: var(--ae-color-success);
+  --note: var(--ae-color-warning);
+  --warn: var(--ae-color-danger);
+  --band: var(--ae-color-indigo);
+  --contour: var(--ae-color-clay);
+  /* Signalisation: nur Wegweiser, Standort und Marke */
+  --sign: var(--ae-color-wegweiser);
+  --sign-ink: var(--ae-color-on-wegweiser);
+  --post: var(--ae-color-sign-edge);
+  --shadow: var(--ae-shadow-sheet);
+  --radius-s: var(--ae-radius-sm);
+  --radius-m: var(--ae-radius-md);
+  --radius-l: var(--ae-radius-lg);
+  --font-ui: var(--ae-font-sans);
+  --font-display: var(--ae-font-serif);
 }
 
 * {
@@ -225,7 +85,6 @@ html {
 
 body {
   margin: 0;
-  background: var(--paper);
   color: var(--ink);
   font-family: var(--font-ui);
   font-size: 1.0625rem;
@@ -279,8 +138,9 @@ small,
 .small {
   font-size: 0.85rem;
 }
+/* Der Grund ist Papier: Nebentext in dunklerer Tinte statt ink-muted */
 .muted {
-  color: var(--muted);
+  color: var(--ink-2);
 }
 .num {
   font-weight: 600;
@@ -313,12 +173,18 @@ small,
   flex-direction: column;
 }
 
-.topbar {
+/* Navigation: Leinenband mit Tibeb-Saum (Kit: ae-nav), bleibt in beiden Themen hell */
+.topbar.ae-nav {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
+  display: block;
+  padding: 0 0 21px;
+  gap: 0;
+  background-size: auto, 560px auto;
+  background-repeat: repeat;
+  --ink-2: #4A4C47;
+  --surface-2: rgb(255 255 255 / 55%);
 }
 .topbar-inner {
   max-width: 1240px;
@@ -365,9 +231,8 @@ small,
 }
 .nav a[aria-current='page'] {
   color: var(--ink);
-  font-weight: 600;
-  background: var(--surface);
-  box-shadow: inset 0 -2px 0 var(--primary);
+  font-weight: 700;
+  box-shadow: inset 0 -3px 0 var(--ink);
 }
 .topbar-actions {
   display: flex;
@@ -382,9 +247,13 @@ small,
   padding: 28px var(--gutter) 64px;
 }
 
+/* Fuss: Grat-Illustration, darunter Schindeln */
+.page-horizon {
+  margin-top: var(--ae-space-8);
+}
 .footer {
-  border-top: 1px solid var(--line);
-  color: var(--muted);
+  background-color: var(--limestone);
+  color: var(--ink);
   font-size: 0.88rem;
 }
 .footer-inner {
@@ -397,7 +266,7 @@ small,
   justify-content: space-between;
 }
 .footer a {
-  color: var(--ink-2);
+  color: var(--ink);
 }
 
 @media (max-width: 860px) {
@@ -432,8 +301,8 @@ small,
 
 .panel {
   background: var(--surface);
-  border: 1px solid var(--line);
   border-radius: var(--radius-l);
+  box-shadow: var(--ae-shadow-sheet);
   padding: clamp(18px, 2.5vw, 28px);
 }
 .panel + .panel {
@@ -499,15 +368,20 @@ small,
   gap: 8px;
   text-decoration: none;
   line-height: 1.2;
-  box-shadow: inset 0 -2px 0 rgb(0 0 0 / 18%);
-  transition: background-color var(--ae-duration-fast) var(--ae-ease-out), transform var(--ae-duration-fast) var(--ae-ease-out);
+  min-height: 44px;
+  background-image: var(--ae-texture-forest);
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: soft-light;
+  box-shadow: var(--ae-shadow-raised);
+  transition: background-color var(--ae-duration-fast) var(--ae-ease-out), transform var(--ae-duration-fast) var(--ae-ease-out), box-shadow var(--ae-duration-fast) var(--ae-ease-out);
 }
 .btn:hover {
   --b: var(--primary-hover);
 }
-.btn:active {
-  transform: translateY(1px);
-  box-shadow: inset 0 1px 0 rgb(0 0 0 / 18%);
+.btn:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: var(--ae-shadow-pressed);
 }
 .btn:disabled {
   opacity: 0.5;
@@ -516,19 +390,25 @@ small,
 .btn-secondary {
   --b: var(--surface);
   color: var(--ink);
-  box-shadow: inset 0 0 0 1px var(--line-strong);
+  background-image: var(--ae-texture-paper);
+  background-blend-mode: multiply;
+  box-shadow: inset 0 0 0 1px var(--line-strong), var(--ae-shadow-raised-quiet);
 }
-.btn-secondary:active {
-  box-shadow: inset 0 0 0 1px var(--line-strong);
+.btn-secondary:active:not(:disabled) {
+  box-shadow: inset 0 0 0 1px var(--line-strong), var(--ae-shadow-pressed);
 }
 .btn-secondary:hover {
-  --b: var(--surface-2);
+  --b: var(--limestone);
 }
 .btn-quiet {
   --b: transparent;
   color: var(--ink-2);
+  background-image: none;
   box-shadow: none;
   padding: 8px 12px;
+}
+.btn-quiet:active:not(:disabled) {
+  box-shadow: none;
 }
 .btn-quiet:hover {
   --b: var(--surface-2);
@@ -536,6 +416,7 @@ small,
 }
 .btn-small {
   padding: 7px 12px;
+  min-height: 36px;
   font-size: 0.92rem;
 }
 .icon-btn {
@@ -555,108 +436,99 @@ small,
   color: var(--ink);
 }
 
-/* ---------- Wegweiser ---------- */
+/* ---------- Wegweiser (Kit: ae-standort, ae-wegweiser-mast) ---------- */
 
 .signpost {
-  position: relative;
   display: grid;
-  gap: 6px;
-  padding-left: 22px;
-  width: min(100%, 520px);
+  gap: var(--ae-space-3);
+  justify-items: start;
+  width: min(100%, 26rem);
+  padding-bottom: var(--ae-space-8);
 }
-.signpost::before {
-  content: '';
-  position: absolute;
-  left: 8px;
-  top: 6px;
-  bottom: -40px;
-  width: 9px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--post), color-mix(in srgb, var(--post) 70%, white));
+.signpost .ae-standort {
+  margin: 0 0 0 14px;
+  width: calc(100% - 14px);
 }
-.sign {
-  position: relative;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 18px;
-  background: var(--sign);
-  color: var(--sign-ink);
-  font-family: var(--font-sign);
-  font-weight: 600;
-  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
-  line-height: 1.1;
-  padding: 12px 52px 12px 18px;
-  clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 50%, calc(100% - 26px) 100%, 0 100%);
-  box-shadow: var(--shadow);
-}
-.sign .sign-time {
-  font-weight: 700;
-  white-space: nowrap;
-}
-.sign small {
+.sign-sub {
   display: block;
-  font-family: var(--font-ui);
+  font-size: 0.8125rem;
   font-weight: 500;
-  font-size: 0.82rem;
-  opacity: 0.85;
-  margin-top: 2px;
+  margin-top: 1px;
 }
-.sign--left {
-  padding: 12px 18px 12px 52px;
-  clip-path: polygon(26px 0, 100% 0, 100% 100%, 26px 100%, 0 50%);
+.ae-wegweiser--static:hover {
+  transform: none;
 }
-.sign--here {
-  background: #FFFFFF;
-  color: var(--sign-ink);
-  clip-path: none;
-  border-radius: 3px;
-  padding: 10px 18px;
-  border: 2px solid var(--sign-ink);
-  justify-content: space-between;
-}
-.sign--here .sign-time {
-  font-weight: 600;
+.ae-wegweiser--static:hover .ae-wegweiser__ziel {
+  text-decoration: none;
 }
 
 /* ---------- Startseite ---------- */
 
+/* Hero: Höhenlinien-Grund, Collage mit Rissrand, Wegweiser davor */
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-  gap: clamp(28px, 5vw, 72px);
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  grid-template-areas:
+    'text collage'
+    'text signs';
+  gap: 0 clamp(28px, 5vw, 64px);
   align-items: center;
-  padding: clamp(12px, 4vw, 48px) 0 clamp(36px, 6vw, 72px);
+  /* volle Breite, Inhalt bleibt im Raster */
+  margin: -28px calc(50% - 50vw) 0;
+  padding: clamp(32px, 5vw, 64px) calc(50vw - 50%) clamp(24px, 4vw, 40px);
+}
+.hero-text {
+  grid-area: text;
+  display: grid;
+  justify-items: start;
 }
 .hero h1 {
   margin-bottom: var(--ae-space-5);
 }
 .hero .lede {
   font-size: 1.125rem;
-  color: var(--ink-2);
+  color: var(--ink);
   margin-bottom: 26px;
+  max-width: 46ch;
 }
-.hero-visual {
-  display: grid;
-  justify-items: start;
-  padding: var(--ae-space-8) var(--ae-space-8) var(--ae-space-12);
+.hero-collage {
+  grid-area: collage;
 }
-@media (max-width: 520px) {
-  .hero-visual {
-    padding: var(--ae-space-6) var(--ae-space-4) var(--ae-space-10);
-  }
+.hero-collage img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--ae-radius-sm);
+  padding: 0;
+}
+.hero-signs {
+  grid-area: signs;
+  position: relative;
+  z-index: 1;
+  margin: -88px 0 0 clamp(12px, 3vw, 32px);
 }
 @media (max-width: 860px) {
   .hero {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'collage' 'text' 'signs';
+    gap: var(--ae-space-6);
+  }
+  .hero-collage img {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+  .hero-signs {
+    margin: 0;
   }
 }
 
+.paths-trim {
+  margin: var(--ae-space-8) 0 var(--ae-space-6);
+}
 .paths {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0;
-  border-top: 2px solid var(--ink);
+  gap: var(--ae-space-6);
 }
 .path-kicker {
   display: block;
@@ -666,27 +538,22 @@ small,
   font-variant-numeric: tabular-nums;
   margin-bottom: var(--ae-space-2);
 }
-.path {
-  padding: 22px 24px 8px 0;
-}
-.path + .path {
-  padding-left: 24px;
-  border-left: 1px solid var(--line);
-}
-.path h3 {
-  margin-bottom: 8px;
+.path.ae-surface {
+  padding: var(--ae-space-6);
+  display: grid;
+  gap: var(--ae-space-3);
+  align-content: start;
 }
 .path p {
-  color: var(--ink-2);
+  margin: 0;
 }
-@media (max-width: 760px) {
+.path .ae-wegweiser {
+  justify-self: start;
+  margin-top: var(--ae-space-2);
+}
+@media (max-width: 860px) {
   .paths {
     grid-template-columns: 1fr;
-  }
-  .path + .path {
-    padding-left: 0;
-    border-left: 0;
-    border-top: 1px solid var(--line);
   }
 }
 
@@ -732,7 +599,7 @@ small,
 
 .route {
   position: sticky;
-  top: 86px;
+  top: 96px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -846,6 +713,7 @@ small,
   align-items: center;
   background: var(--surface);
   border: 1px solid var(--line-strong);
+  box-shadow: var(--ae-shadow-deboss);
   border-radius: var(--radius-m);
   min-height: 44px;
   transition: border-color 0.12s;
@@ -982,13 +850,17 @@ input[type='range'] {
   color: inherit;
 }
 
+/* Hinweis auf Faserpapier mit Ocker-Kante */
 .callout {
-  border-left: 3px solid var(--accent);
-  background: var(--surface-2);
+  border-left: 3px solid var(--ae-color-pigment-ochre);
+  background-color: var(--ae-color-limestone);
+  background-image: linear-gradient(rgb(255 255 255 / 35%), rgb(255 255 255 / 35%)), var(--ae-texture-paper-fiber);
+  background-size: cover;
+  box-shadow: var(--ae-shadow-sheet);
   padding: 12px 16px;
   border-radius: 0 var(--radius-m) var(--radius-m) 0;
   font-size: 0.95rem;
-  color: var(--ink-2);
+  color: var(--ink);
 }
 .callout p:last-child {
   margin-bottom: 0;
@@ -1145,7 +1017,7 @@ input[type='range'] {
 /* Live-Zusammenfassung */
 .live {
   position: sticky;
-  top: 86px;
+  top: 96px;
   display: grid;
   gap: 14px;
 }
@@ -1200,9 +1072,6 @@ input[type='range'] {
 .verdict .signpost {
   justify-self: end;
 }
-.verdict .signpost::before {
-  bottom: -24px;
-}
 @media (max-width: 860px) {
   .verdict {
     grid-template-columns: 1fr;
@@ -1240,9 +1109,9 @@ input[type='range'] {
 .kpis {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  border: 1px solid var(--line);
   border-radius: var(--radius-l);
   background: var(--surface);
+  box-shadow: var(--ae-shadow-sheet);
   overflow: hidden;
 }
 .kpi {
@@ -1316,7 +1185,7 @@ input[type='range'] {
 }
 .insight {
   background: var(--surface);
-  border: 1px solid var(--line);
+  box-shadow: var(--ae-shadow-sheet);
   border-radius: var(--radius-m);
   padding: 18px 20px;
   display: grid;
@@ -1496,17 +1365,22 @@ table.data td:first-child {
   left: 0;
   background: var(--surface);
 }
+/* Tabellenkopf: gewaschenes Leinen (bleibt hell) */
+table.data thead th,
+.prose th {
+  background-color: #E9E5DA;
+  background-image: linear-gradient(rgb(233 229 218 / 55%), rgb(233 229 218 / 55%)), var(--ae-texture-linen);
+  background-size: cover;
+  color: var(--ae-color-on-material);
+  font-weight: 600;
+}
 table.data thead th {
   position: sticky;
   top: 0;
-  background: var(--surface-2);
-  color: var(--ink-2);
-  font-weight: 600;
   z-index: 1;
 }
 table.data thead th:first-child {
   z-index: 2;
-  background: var(--surface-2);
 }
 table.data tr.retired td {
   background: color-mix(in srgb, var(--surface-2) 60%, var(--surface));
@@ -1563,7 +1437,7 @@ details.disclosure[open] > summary::before {
 }
 .journey-stage {
   position: sticky;
-  top: 86px;
+  top: 96px;
 }
 .journey-progress {
   display: flex;
@@ -1589,13 +1463,14 @@ details.disclosure[open] > summary::before {
 
 .card {
   background: var(--surface);
-  border: 1px solid var(--line);
   border-radius: var(--radius-l);
-  box-shadow: var(--shadow);
+  box-shadow: var(--ae-shadow-stack);
   overflow: hidden;
 }
-.card-head {
+.card-head.ae-surface {
   padding: 20px 22px 16px;
+  border-radius: 0;
+  box-shadow: none;
   border-bottom: 1px solid var(--line);
 }
 .card-year {
@@ -1784,11 +1659,12 @@ details.disclosure[open] > summary::before {
     grid-template-columns: 1fr;
   }
 }
-.info-nav {
+.info-nav.ae-surface {
   position: sticky;
-  top: 86px;
+  top: 96px;
   display: grid;
   gap: 2px;
+  padding: var(--ae-space-3);
 }
 .info-nav a {
   padding: 8px 10px;
@@ -1800,11 +1676,17 @@ details.disclosure[open] > summary::before {
   background: var(--surface-2);
   color: var(--ink);
 }
-.info-nav a[aria-current='page'] {
-  background: var(--surface);
+.info-nav a {
   color: var(--ink);
-  font-weight: 600;
-  box-shadow: inset 2px 0 0 var(--primary);
+}
+.info-nav a:hover {
+  background: rgb(255 255 255 / 45%);
+}
+.info-nav a[aria-current='page'] {
+  background: rgb(255 255 255 / 70%);
+  color: var(--ink);
+  font-weight: 700;
+  box-shadow: inset 3px 0 0 var(--ink);
 }
 .prose {
   max-width: 72ch;
@@ -1874,10 +1756,7 @@ details.disclosure[open] > summary::before {
   border-bottom: 1px solid var(--line);
   vertical-align: top;
 }
-.prose th {
-  color: var(--ink-2);
-  font-weight: 600;
-}
+
 
 .example {
   display: grid;
@@ -1885,11 +1764,9 @@ details.disclosure[open] > summary::before {
   gap: 12px;
   margin: 16px 0 20px;
 }
-.example > div {
-  background: var(--surface);
-  border: 1px solid var(--line);
+.example > .ae-surface {
+  padding: 16px;
   border-radius: var(--radius-m);
-  padding: 14px;
 }
 .example .num {
   font-size: 1.375rem;
@@ -2015,25 +1892,6 @@ details.disclosure[open] > summary::before {
 table.data.wrap td:first-child {
   white-space: normal;
 }
-a.sign {
-  text-decoration: none;
-}
-a.sign {
-  transition: transform var(--ae-duration-fast) var(--ae-ease-out), background-color var(--ae-duration-fast) var(--ae-ease-out);
-}
-a.sign:hover {
-  background: var(--sign-deep);
-  transform: translateX(3px);
-}
-a.sign--left:hover {
-  transform: translateX(-3px);
-}
-.signpost a.sign:focus-visible {
-  outline-color: var(--ink);
-}
-a.sign:focus-visible {
-  outline-offset: 4px;
-}
 @media (max-width: 520px) {
   .nav a {
     padding: 8px 8px;
@@ -2077,5 +1935,66 @@ a.sign:focus-visible {
   .event-item > div:nth-child(2) {
     grid-column: 1 / -1;
     grid-row: 2;
+  }
+}
+
+/* ---------- Material und Illustration ---------- */
+
+.empty-state.ae-surface {
+  max-width: 680px;
+  display: grid;
+  gap: var(--ae-space-4);
+  justify-items: start;
+  padding: clamp(24px, 4vw, 40px);
+  margin: var(--ae-space-4) 0 var(--ae-space-12);
+  box-shadow: var(--ae-shadow-stack);
+}
+.empty-state p {
+  margin: 0;
+}
+
+.verdict.ae-surface {
+  box-shadow: var(--ae-shadow-stack);
+  border-radius: var(--radius-l);
+}
+.verdict .lede {
+  color: var(--ink);
+}
+
+.live-card.ae-surface {
+  padding: 20px;
+}
+
+.privacy-notice {
+  margin-top: var(--ae-space-10);
+}
+
+.journey-ridge {
+  display: block;
+  width: min(100%, 520px);
+  height: auto;
+  margin-top: var(--ae-space-8);
+  opacity: 0.9;
+}
+
+.medallions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ae-space-6) var(--ae-space-10);
+  margin: var(--ae-space-4) 0 var(--ae-space-2);
+}
+.medallions figure {
+  margin: 0;
+}
+
+/* Grat über dem Fuss: der helle Papierhimmel geht im Papier auf (hell) bzw. wird ausgeblendet (Nacht) */
+.page-horizon {
+  mix-blend-mode: multiply;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .page-horizon {
+    mix-blend-mode: normal;
+    -webkit-mask-image: linear-gradient(transparent 22%, #000 62%);
+    mask-image: linear-gradient(transparent 22%, #000 62%);
   }
 }

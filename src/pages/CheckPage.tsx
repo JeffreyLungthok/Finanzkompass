@@ -51,12 +51,13 @@ export function CheckPage() {
 
   if (!started || !plan.location) {
     return (
-      <div className="panel ae-textured ae-textured--paper" style={{ maxWidth: 680 }}>
-        <h1 className="display" style={{ marginBottom: 12 }}>Zuerst ein paar Angaben</h1>
+      <div className="empty-state ae-surface ae-surface--paper ae-stitched ae-deckle">
+        <h1 className="display ae-letterpress">Zuerst ein paar Angaben</h1>
         <p>Für den Ist-Check braucht der Finanzkompass mindestens deinen Wohnort, dein Alter und deinen Lohn.</p>
         <a className="btn" href={href('plan/haushalt')}>
           Plan erfassen
         </a>
+        <span className="ae-feature__grass" aria-hidden="true" />
       </div>
     );
   }
@@ -109,9 +110,9 @@ export function CheckPage() {
 
   return (
     <div className={loading ? 'loading' : undefined}>
-      <section className="verdict ae-textured ae-textured--paper sheet">
+      <section className="verdict ae-surface ae-surface--paper ae-stitched">
         <div>
-          <h1 className="display">{verdict}</h1>
+          <h1 className="display ae-letterpress">{verdict}</h1>
           <p className="lede">
             In {Math.round(success * mc.simulations).toLocaleString('de-CH')} von {mc.simulations.toLocaleString('de-CH')} simulierten Zukünften reicht
             dein Geld bis Alter {derived.assumptions.endAge}.{' '}
