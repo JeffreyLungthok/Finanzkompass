@@ -1,0 +1,34 @@
+{
+  "name": "finanzkompass",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "lint": "oxlint",
+    "steuerdaten": "node scripts/import-tax-data.mjs"
+  },
+  "dependencies": {
+    "@fontsource/atkinson-hyperlegible-next": "^5.3.0",
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "lucide-react": "^1.52.0",
+    "lz-string": "^1.5.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.3"
+  },
+  "description": "Finanzplan für die Schweiz: Steuern jeder Gemeinde, AHV, Pensionskasse, Säule 3a, Monte-Carlo- und Lebenssimulation",
+  "license": "MIT"
+}
