@@ -17,8 +17,8 @@ export function JourneyPage() {
 
   if (!started || !plan.location) {
     return (
-      <div className="panel" style={{ maxWidth: 680 }}>
-        <h1 style={{ fontSize: '2.4rem', marginBottom: 12 }}>Erst der Plan, dann die Reise</h1>
+      <div className="panel ae-textured ae-textured--paper" style={{ maxWidth: 680 }}>
+        <h1 className="display" style={{ marginBottom: 12 }}>Erst der Plan, dann die Reise</h1>
         <p>Die Lebenssimulation startet bei deiner heutigen Situation. Erfasse zuerst Wohnort, Alter, Lohn und Vorsorge.</p>
         <a className="btn" href={href('plan/haushalt')}>
           Plan erfassen
@@ -36,8 +36,8 @@ function JourneyIntro({ onStart }: { onStart: () => void }) {
   return (
     <div className="journey" style={{ alignItems: 'center' }}>
       <div>
-        <h1 style={{ marginBottom: 14 }}>Lebenssimulation</h1>
-        <p className="lede" style={{ fontSize: '1.15rem', color: 'var(--ink-2)' }}>
+        <h1 className="display" style={{ marginBottom: 14 }}>Lebenssimulation</h1>
+        <p className="lede" style={{ fontSize: '1.125rem', color: 'var(--ink-2)' }}>
           Du startest heute mit deinem Plan. Dann läuft die Zeit: Die Börse schwankt zufällig, das Leben stellt Fragen. An jeder
           Wegmarke entscheidest du – vom Hauskauf über den Einkauf in die Pensionskasse bis zur Frage Rente oder Kapital.
         </p>
@@ -136,7 +136,7 @@ function JourneyRun({ plan, ctx, journey }: { plan: Plan; ctx: TaxContext; journ
             <RotateCcw size={16} /> Neu
           </button>
         </div>
-        <h1 style={{ fontSize: 'clamp(2rem, 4vw, 2.8rem)' }}>
+        <h1>
           {card.year}: {plan.persons.length > 1 ? `${p1.name} ist ${age}` : `du bist ${age}`}
         </h1>
         <div className="journey-progress" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress * 100)} aria-label="Fortschritt im Leben">
@@ -187,7 +187,7 @@ function JourneyRun({ plan, ctx, journey }: { plan: Plan; ctx: TaxContext; journ
 function JourneyCard({ card, busy, onChoose }: { card: Card; busy: boolean; onChoose: (id: string) => void }) {
   return (
     <article className="card" aria-live="polite" aria-busy={busy}>
-      <div className="card-head">
+      <div className="card-head ae-textured ae-textured--linen">
         <div className="card-year">
           <span className="num">{card.year}</span>
           <span className={`status ${card.kind === 'ereignis' ? 'status--hinweis' : 'status--gut'}`}>{card.kind === 'ereignis' ? 'Ereignis' : 'Entscheid'}</span>
@@ -245,7 +245,7 @@ function JourneySummary({ plan, ctx, journey }: { plan: Plan; ctx: TaxContext; j
   return (
     <div>
       <div className="page-head">
-        <h1>Dein Lebensauszug</h1>
+        <h1 className="display">Dein Lebensauszug</h1>
         <p className="lede">
           {journey.decisions.length} Entscheide, ein zufälliger Börsenverlauf mit {crashes.length} {crashes.length === 1 ? 'grossen Einbruch' : 'grossen Einbrüchen'}.
           {failed ? ` Auf diesem Pfad war das frei verfügbare Geld ${failed.year} mit ${failed.year - p1.birthYear} aufgebraucht.` : ` Auf diesem Pfad hat das Geld bis ${plan.assumptions.endAge} gereicht.`}

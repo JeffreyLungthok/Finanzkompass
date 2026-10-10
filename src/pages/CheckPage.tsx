@@ -51,8 +51,8 @@ export function CheckPage() {
 
   if (!started || !plan.location) {
     return (
-      <div className="panel" style={{ maxWidth: 680 }}>
-        <h1 style={{ fontSize: '2.4rem', marginBottom: 12 }}>Zuerst ein paar Angaben</h1>
+      <div className="panel ae-textured ae-textured--paper" style={{ maxWidth: 680 }}>
+        <h1 className="display" style={{ marginBottom: 12 }}>Zuerst ein paar Angaben</h1>
         <p>Für den Ist-Check braucht der Finanzkompass mindestens deinen Wohnort, dein Alter und deinen Lohn.</p>
         <a className="btn" href={href('plan/haushalt')}>
           Plan erfassen
@@ -93,7 +93,7 @@ export function CheckPage() {
   const success = mc.successRate;
   const verdict =
     success >= 0.9 ? 'Du bist gut unterwegs.' : success >= 0.7 ? 'Du bist auf Kurs – mit wenig Reserve.' : 'Dein Plan braucht Anpassungen.';
-  const meterColor = success >= 0.9 ? 'var(--good)' : success >= 0.7 ? 'var(--sign-deep)' : 'var(--warn)';
+  const meterColor = success >= 0.9 ? 'var(--good)' : success >= 0.7 ? 'var(--note)' : 'var(--warn)';
   const survival85 = mc.survival[mc.years.indexOf(p1.birthYear + 85)] ?? mc.survival[mc.survival.length - 1];
   const ageNow = derived.startYear - p1.birthYear;
   const alreadyRetired = retireYear <= derived.startYear;
@@ -109,9 +109,9 @@ export function CheckPage() {
 
   return (
     <div className={loading ? 'loading' : undefined}>
-      <section className="verdict">
+      <section className="verdict ae-textured ae-textured--paper sheet">
         <div>
-          <h1>{verdict}</h1>
+          <h1 className="display">{verdict}</h1>
           <p className="lede">
             In {Math.round(success * mc.simulations).toLocaleString('de-CH')} von {mc.simulations.toLocaleString('de-CH')} simulierten Zukünften reicht
             dein Geld bis Alter {derived.assumptions.endAge}.{' '}

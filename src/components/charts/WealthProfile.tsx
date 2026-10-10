@@ -119,13 +119,13 @@ export function WealthProfile({ years, birthYear, bands, path, pathUntil, milest
           {visiblePath && visiblePath.length > 0 && (
             <>
               <path d={linePath(xs.slice(0, visiblePath.length), visiblePath.map(y))} fill="none" stroke="var(--ink)" strokeWidth={2.25} strokeLinejoin="round" strokeLinecap="round" />
-              <circle cx={xs[visiblePath.length - 1]} cy={y(visiblePath[visiblePath.length - 1])} r={6} fill="var(--sign)" stroke="var(--surface)" strokeWidth={2} />
+              <circle cx={xs[visiblePath.length - 1]} cy={y(visiblePath[visiblePath.length - 1])} r={6} fill="var(--accent)" stroke="var(--surface)" strokeWidth={2} />
             </>
           )}
 
           {ms.map((m, i) => (
             <g key={`${m.year}-${i}`} transform={`translate(${x(m.year)},${innerH})`}>
-              <rect x={-5} y={-5} width={10} height={10} transform="rotate(45)" fill="var(--sign)" stroke="var(--ink)" strokeWidth={1.5} />
+              <rect x={-5} y={-5} width={10} height={10} transform="rotate(45)" fill="var(--accent)" stroke="var(--ink)" strokeWidth={1.5} />
             </g>
           ))}
 
@@ -216,7 +216,7 @@ export function WealthProfile({ years, birthYear, bands, path, pathUntil, milest
         {ms.length > 0 && (
           <span>
             <svg width="12" height="12" aria-hidden="true">
-              <rect x="2" y="2" width="8" height="8" transform="rotate(45 6 6)" fill="var(--sign)" stroke="var(--ink)" strokeWidth="1.2" />
+              <rect x="2" y="2" width="8" height="8" transform="rotate(45 6 6)" fill="var(--accent)" stroke="var(--ink)" strokeWidth="1.2" />
             </svg>
             Ereignis
           </span>

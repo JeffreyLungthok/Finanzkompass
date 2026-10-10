@@ -13,7 +13,7 @@ export function Landing() {
     <>
       <section className="hero">
         <div>
-          <h1>Wohin führt dein Geld?</h1>
+          <h1 className="display">Wohin führt dein Geld?</h1>
           <p className="lede">
             Plane deine Finanzen bis zur Pension und darüber hinaus – mit den Steuern deiner Gemeinde, AHV, Pensionskasse
             und Säule 3a. Tausend mögliche Zukünfte zeigen, wie robust dein Plan ist und wo Überraschungen lauern.
@@ -40,7 +40,7 @@ export function Landing() {
             )}
           </div>
         </div>
-        <div className="hero-visual">
+        <div className="hero-visual ae-textured ae-textured--paper sheet">
           {started && plan.location ? (
             <Signpost
               label="Dein Weg"
@@ -67,6 +67,7 @@ export function Landing() {
 
       <section className="paths" aria-label="Was du hier machen kannst">
         <div className="path">
+          <span className="path-kicker">01</span>
           <h3>Plan erfassen</h3>
           <p>
             Wohnort, Lohn, Pensionskasse, Säule 3a, Vermögen, Hypothek und Ausgaben. Werte vom Lohnausweis, PK-Ausweis und
@@ -75,6 +76,7 @@ export function Landing() {
           <a href={href('plan/haushalt')}>Mit dem Haushalt beginnen</a>
         </div>
         <div className="path">
+          <span className="path-kicker">02</span>
           <h3>Wo stehe ich?</h3>
           <p>
             Der Ist-Check rechnet tausend Zukünfte mit schwankenden Börsen, Teuerung und Zinsen. Du siehst, wie
@@ -83,6 +85,7 @@ export function Landing() {
           <a href={href('check')}>Zum Ist-Check</a>
         </div>
         <div className="path">
+          <span className="path-kicker">03</span>
           <h3>Lebenssimulation</h3>
           <p>
             Durchlebe einen möglichen Lebenslauf Jahr für Jahr: Hauskauf, Börsencrash, Einkauf in die Pensionskasse,
