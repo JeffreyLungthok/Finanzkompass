@@ -15,7 +15,7 @@ export function InfoPage({ topic }: { topic: string }) {
   const current = TOPICS.find((t) => t.id === topic) ?? TOPICS[0];
   return (
     <div className="info-layout">
-      <nav className="info-nav ae-surface ae-surface--fiber" aria-label="Infos">
+      <nav className="info-nav" aria-label="Infos">
         {TOPICS.map((t) => (
           <a key={t.id} href={href(`info/${t.id}`)} aria-current={t.id === current.id ? 'page' : undefined}>
             {t.label}
@@ -45,17 +45,17 @@ function TodayFrancs() {
         Kontoauszug wird dann eine grössere Zahl stehen – weil die Preise bis dahin gestiegen sind.
       </p>
       <div className="example">
-        <div className="ae-surface ae-surface--fiber">
+        <div>
           <span className="small">Heute</span>
           <span className="num">{chf(100000)}</span>
           <span className="small">Kaufkraft {PARAMS.year}</span>
         </div>
-        <div className="ae-surface ae-surface--linen">
+        <div>
           <span className="small">In 25 Jahren bei 1 % Teuerung</span>
           <span className="num">{chf(100000 * f25)}</span>
           <span className="small">nötig für die gleiche Kaufkraft</span>
         </div>
-        <div className="ae-surface ae-surface--kraft">
+        <div>
           <span className="small">Im Finanzkompass angezeigt</span>
           <span className="num">{chf(100000)}</span>
           <span className="small">in heutigen Franken</span>

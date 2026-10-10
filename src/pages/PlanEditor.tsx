@@ -105,7 +105,7 @@ function LiveSummary({ plan, ctx }: { plan: Plan; ctx: TaxContext | null }) {
 
   return (
     <aside className="live" aria-label="Zusammenfassung">
-      <div className="live-card ae-surface ae-surface--paper ae-stitched">
+      <div className="live-card panel">
         <h3>Dein Jahr {plan.startYear}</h3>
         {!plan.location && <p className="small" style={{ opacity: 0.8 }}>Wähle deinen Wohnort, damit die Steuern berechnet werden können.</p>}
         {data && (
@@ -141,7 +141,7 @@ function LiveSummary({ plan, ctx }: { plan: Plan; ctx: TaxContext | null }) {
           </>
         )}
         <a className="btn" href={href('check')} aria-disabled={!plan.location}>
-          Wo stehe ich?
+          Zum Ist-Check
         </a>
       </div>
       <p className="small muted" style={{ margin: 0 }}>

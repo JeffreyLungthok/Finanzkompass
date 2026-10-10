@@ -17,13 +17,12 @@ export function JourneyPage() {
 
   if (!started || !plan.location) {
     return (
-      <div className="empty-state ae-surface ae-surface--paper ae-stitched ae-deckle">
-        <h1 className="display ae-letterpress">Erst der Plan, dann die Reise</h1>
+      <div className="empty-state ae-surface ae-surface--paper">
+        <h1 className="display">Erst der Plan, dann die Reise</h1>
         <p>Die Lebenssimulation startet bei deiner heutigen Situation. Erfasse zuerst Wohnort, Alter, Lohn und Vorsorge.</p>
         <a className="btn" href={href('plan/haushalt')}>
           Plan erfassen
         </a>
-        <span className="ae-feature__grass" aria-hidden="true" />
       </div>
     );
   }
@@ -50,16 +49,8 @@ function JourneyIntro({ onStart }: { onStart: () => void }) {
           <button className="btn" onClick={onStart}>
             Simulation starten
           </button>
-          <span className="muted small">Dauer etwa 10 bis 15 Minuten</span>
+          <span className="muted small">Dauer etwa 15 min</span>
         </div>
-        <img
-          className="journey-ridge"
-          src="./alpine-earth/assets/Illustrations/ridge-stone.webp"
-          width={2000}
-          height={689}
-          alt=""
-          aria-hidden="true"
-        />
       </div>
       <ol className="timeline" aria-label="Etappen">
         {[
@@ -196,7 +187,7 @@ function JourneyRun({ plan, ctx, journey }: { plan: Plan; ctx: TaxContext; journ
 function JourneyCard({ card, busy, onChoose }: { card: Card; busy: boolean; onChoose: (id: string) => void }) {
   return (
     <article className="card" aria-live="polite" aria-busy={busy}>
-      <div className="card-head ae-surface ae-surface--linen">
+      <div className="card-head">
         <div className="card-year">
           <span className="num">{card.year}</span>
           <span className={`status ${card.kind === 'ereignis' ? 'status--hinweis' : 'status--gut'}`}>{card.kind === 'ereignis' ? 'Ereignis' : 'Entscheid'}</span>
@@ -254,25 +245,11 @@ function JourneySummary({ plan, ctx, journey }: { plan: Plan; ctx: TaxContext; j
   return (
     <div>
       <div className="page-head">
-        <h1 className="display ae-letterpress">Dein Lebensauszug</h1>
+        <h1 className="display">Dein Lebensauszug</h1>
         <p className="lede">
           {journey.decisions.length} Entscheide, ein zufälliger Börsenverlauf mit {crashes.length} {crashes.length === 1 ? 'grossen Einbruch' : 'grossen Einbrüchen'}.
           {failed ? ` Auf diesem Pfad war das frei verfügbare Geld ${failed.year} mit ${failed.year - p1.birthYear} aufgebraucht.` : ` Auf diesem Pfad hat das Geld bis ${plan.assumptions.endAge} gereicht.`}
         </p>
-        <div className="medallions">
-          <figure className="ae-medallion">
-            <span className="ae-medallion__disc">{journey.decisions.length}</span>
-            <figcaption className="ae-medallion__label">Entscheide an Wegmarken</figcaption>
-          </figure>
-          <figure className="ae-medallion ae-medallion--clay">
-            <span className="ae-medallion__disc">{crashes.length}</span>
-            <figcaption className="ae-medallion__label">{crashes.length === 1 ? 'grosser Börseneinbruch' : 'grosse Börseneinbrüche'}</figcaption>
-          </figure>
-          <figure className="ae-medallion ae-medallion--woven">
-            <span className="ae-medallion__disc">{failed ? failed.year - p1.birthYear : plan.assumptions.endAge}</span>
-            <figcaption className="ae-medallion__label">{failed ? 'Alter, in dem das Geld ausging' : 'Alter, bis zu dem das Geld reicht'}</figcaption>
-          </figure>
-        </div>
         <div className="row no-print">
           <button
             className="btn"

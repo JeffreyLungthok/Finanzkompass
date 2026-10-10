@@ -1,126 +1,141 @@
-import { Signpost } from '../components/Signpost';
+import { useMemo } from 'react';
 import { href } from '../lib/router';
 import { useAppState } from '../lib/store';
+import { useSimulation } from '../lib/useSimulation';
+import { createDefaultPlan, householdLabel } from '../engine/plan';
+import { chf } from '../lib/format';
+import { HeroRidges } from '../components/charts/HeroRidges';
+
+const REPO_URL = 'https://github.com/JeffreyLungthok/Finanzkompass';
+
+/** Beispielplan für Besucher ohne eigenen Plan: Standardwerte, Wohnort Zürich. */
+function examplePlan() {
+  return { ...createDefaultPlan(), location: { bfsId: 261, name: 'Zürich', cantonId: 26, canton: 'ZH' } };
+}
 
 export function Landing() {
   const { plan, started } = useAppState();
-  const p1 = plan.persons[0];
-  const age = plan.startYear - p1.birthYear;
+  const own = started && !!plan.location;
+  const shown = useMemo(() => (own ? plan : examplePlan()), [own, plan]);
+  const { result } = useSimulation(shown, { channel: 'hero' });
+  const p1 = shown.persons[0];
+  const age = shown.startYear - p1.birthYear;
   const retireYear = p1.birthYear + p1.retirementAge;
+  const mc = result?.mc;
 
   return (
     <>
-      <section className="hero ae-pattern ae-pattern--contour">
+      <section className="hero">
         <div className="hero-text">
-          <h1 className="display ae-letterpress">Wohin führt dein Geld?</h1>
+          <p className="eyebrow">Finanzplan für die Schweiz · Steuerjahr {shown.startYear}</p>
+          <h1 className="display">Wohin führt dein Geld?</h1>
           <p className="lede">
-            Plane deine Finanzen bis zur Pension und darüber hinaus – mit den Steuern deiner Gemeinde, AHV, Pensionskasse
-            und Säule 3a. Tausend mögliche Zukünfte zeigen, wie robust dein Plan ist und wo Überraschungen lauern.
+            Tausend mögliche Zukünfte zeigen, wie robust dein Plan ist: mit den Steuern deiner Gemeinde, AHV, Pensionskasse
+            und Säule 3a, bis zur Pension und darüber hinaus.
           </p>
-          <div className="row">
-            {started ? (
+          {own ? (
+            <a className="ae-wegweiser hero-cta" href={href('check')}>
+              <span className="ae-wegweiser__ziel">Zu deinem Ist-Check</span>
+              <span className="ae-wegweiser__zeit">dein Plan</span>
+            </a>
+          ) : (
+            <a className="ae-wegweiser hero-cta" href={href('plan/haushalt')}>
+              <span className="ae-wegweiser__ziel">Start: Ist-Check</span>
+              <span className="ae-wegweiser__zeit">10 min</span>
+            </a>
+          )}
+          <p className="hero-secondary">
+            {own ? (
               <>
-                <a className="btn" href={href('check')}>
-                  Wo stehe ich?
-                </a>
-                <a className="btn btn-secondary" href={href('plan/haushalt')}>
-                  Plan bearbeiten
-                </a>
+                <a href={href('plan/haushalt')}>Plan bearbeiten</a> · <a href={href('reise')}>Lebenssimulation</a> (15 min)
               </>
             ) : (
               <>
-                <a className="btn" href={href('plan/haushalt')}>
-                  Plan erfassen
-                </a>
-                <a className="btn btn-secondary" href={href('info/methodik')}>
-                  So rechnet der Finanzkompass
-                </a>
+                Oder zuerst <a href={href('info/methodik')}>nachlesen, wie der Finanzkompass rechnet</a>.
               </>
             )}
-          </div>
+          </p>
         </div>
-        <div className="hero-collage ae-lift">
-          <img
-            className="ae-torn-bottom"
-            src="./alpine-earth/assets/Illustrations/alpine-collage.webp"
-            width={2000}
-            height={1219}
-            alt="Papiercollage: graugrüne Berge vor einer blassen Sonne, darunter ein See und ein Ufer aus Kraftpapier"
-          />
-        </div>
-        <div className="hero-signs">
-          {started && plan.location ? (
-            <Signpost
-              label="Dein Weg"
-              here={{ label: plan.location.name, value: `Alter ${age}` }}
-              signs={[
-                { label: `Pension ${retireYear}`, time: `${retireYear - plan.startYear} Jahre`, href: href('check') },
-                { label: `Alter ${plan.assumptions.endAge}`, time: `${plan.assumptions.endAge - age} Jahre`, sub: 'Planungshorizont', href: href('reise') },
-                { label: 'Infos', time: '', direction: 'left', href: href('info/heutige-franken') }
-              ]}
+
+        <figure className="hero-figure">
+          {mc ? (
+            <HeroRidges
+              years={mc.years}
+              bands={mc.netWorth}
+              birthYear={p1.birthYear}
+              retirementYear={retireYear}
+              endAge={shown.assumptions.endAge}
+              successRate={mc.successRate}
             />
           ) : (
-            <Signpost
-              label="Wegweiser"
-              here={{ label: 'Dein Standort', value: 'heute' }}
-              signs={[
-                { label: 'Ist-Check', time: '10 min', sub: 'Steuern, Vorsorge, Vermögen bis 95', href: href('plan/haushalt') },
-                { label: 'Lebenssimulation', time: '15 min', sub: 'Entscheide durchspielen', href: href('reise') },
-                { label: 'Infos für Selbständige', time: '', direction: 'left', href: href('info/selbstaendige') }
-              ]}
-            />
+            <div className="hero-ridges hero-ridges--loading" aria-hidden="true">
+              <div className="spinner-line" />
+            </div>
           )}
-        </div>
+          <figcaption>
+            {own ? 'Dein Plan' : 'Beispiel'}: {householdLabel(shown).toLowerCase()}, {age} Jahre, {shown.location?.name}, Bruttolohn{' '}
+            {chf(p1.grossSalary)}. Gesamtvermögen in heutigen Franken aus 1000 simulierten Zukünften.
+          </figcaption>
+        </figure>
       </section>
 
-      <div className="ae-trim ae-trim--key paths-trim" aria-hidden="true" />
-
-      <section className="paths" aria-label="Was du hier machen kannst">
-        <div className="path ae-surface ae-surface--fiber">
-          <span className="path-kicker">01</span>
-          <h3>Plan erfassen</h3>
-          <p>
-            Wohnort, Lohn, Pensionskasse, Säule 3a, Vermögen, Hypothek und Ausgaben. Werte vom Lohnausweis, PK-Ausweis und
-            der AHV-Rentenvorausberechnung machen den Plan genau.
-          </p>
-          <a className="ae-wegweiser ae-wegweiser--klein" href={href('plan/haushalt')}>
-            <span className="ae-wegweiser__ziel">Haushalt</span>
-            <span className="ae-wegweiser__zeit">10 min</span>
-          </a>
-        </div>
-        <div className="path ae-surface ae-surface--linen">
-          <span className="path-kicker">02</span>
-          <h3>Wo stehe ich?</h3>
-          <p>
-            Der Ist-Check rechnet tausend Zukünfte mit schwankenden Börsen, Teuerung und Zinsen. Du siehst, wie
-            wahrscheinlich dein Geld reicht, wie gross die Rentenlücke ist und wo du Steuern sparen könntest.
-          </p>
-          <a className="ae-wegweiser ae-wegweiser--klein" href={href('check')}>
-            <span className="ae-wegweiser__ziel">Ist-Check</span>
-            <span className="ae-wegweiser__zeit">5 min</span>
-          </a>
-        </div>
-        <div className="path ae-surface ae-surface--kraft">
-          <span className="path-kicker">03</span>
-          <h3>Lebenssimulation</h3>
-          <p>
-            Durchlebe einen möglichen Lebenslauf Jahr für Jahr: Hauskauf, Börsencrash, Einkauf in die Pensionskasse,
-            Rente oder Kapital. Am Schluss erhältst du einen Auszug deiner Entscheide und ihrer Wirkung.
-          </p>
-          <a className="ae-wegweiser ae-wegweiser--klein" href={href('reise')}>
-            <span className="ae-wegweiser__ziel">Lebenssimulation</span>
-            <span className="ae-wegweiser__zeit">15 min</span>
-          </a>
-        </div>
+      <section className="trust" aria-label="Grundlagen">
+        <dl>
+          <div>
+            <dt>Steuern</dt>
+            <dd>Steuerjahr {shown.startYear}, alle 26 Kantone und 2110 Gemeinden</dd>
+          </div>
+          <div>
+            <dt>Datenquellen</dt>
+            <dd>Tarife, Abzüge und Steuerfüsse der ESTV; AHV- und BVG-Werte des BSV</dd>
+          </div>
+          <div>
+            <dt>Offen</dt>
+            <dd>
+              Kostenlos und quelloffen (MIT): <a href={REPO_URL}>Code auf GitHub</a>
+            </dd>
+          </div>
+        </dl>
       </section>
 
-      <div className="ae-notice ae-notice--success privacy-notice">
-        <strong className="ae-notice__title">Privat</strong>
-        <p className="ae-notice__text">
-          Deine Zahlen bleiben in deinem Browser. Es gibt kein Konto und keinen Server, der deine Daten speichert. Teilen
-          kannst du deinen Plan über einen Link, in dem die Daten selbst stecken.
+      <section className="steps" aria-labelledby="steps-title">
+        <h2 id="steps-title">So funktioniert der Ist-Check</h2>
+        <ol>
+          <li>
+            <span className="step-num">1</span>
+            <h3>Plan erfassen</h3>
+            <p>
+              Wohnort, Lohn, Pensionskasse, Säule 3a, Vermögen, Hypothek und Ausgaben. Werte vom Lohnausweis, PK-Ausweis und der
+              AHV-Rentenvorausberechnung machen den Plan genau. Selbständig? Lies zuerst die{' '}
+              <a href={href('info/selbstaendige')}>Infos für Selbständige</a>.
+            </p>
+          </li>
+          <li>
+            <span className="step-num">2</span>
+            <h3>Ergebnis ansehen</h3>
+            <p>
+              Tausend Zukünfte mit schwankenden Börsen, Teuerung und Zinsen. Du siehst, wie wahrscheinlich dein Geld reicht, wie
+              gross die Rentenlücke ist und wo du Steuern sparen könntest.
+            </p>
+          </li>
+          <li>
+            <span className="step-num">3</span>
+            <h3>Entscheide durchspielen</h3>
+            <p>
+              In der Lebenssimulation erlebst du einen Lebenslauf Jahr für Jahr: Hauskauf, Börsencrash, PK-Einkauf, Rente oder
+              Kapital. Am Schluss zeigt ein Auszug, was jeder Entscheid bewirkt hat.
+            </p>
+          </li>
+        </ol>
+      </section>
+
+      <section className="privacy" aria-labelledby="privacy-title">
+        <h2 id="privacy-title">Deine Zahlen bleiben bei dir.</h2>
+        <p>
+          Kein Konto, kein Server, keine Datenbank. Alles wird in deinem Browser berechnet und gespeichert. Teilen kannst du
+          deinen Plan über einen Link, in dem die Daten selbst stecken.
         </p>
-      </div>
+      </section>
     </>
   );
 }

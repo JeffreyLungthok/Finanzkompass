@@ -4,7 +4,7 @@ import { BrandMark } from './components/Signpost';
 import { ShareDialog } from './components/ShareDialog';
 import { href, replaceQuietly, useRoute } from './lib/router';
 import { decodeShare } from './lib/planIO';
-import { getState, replacePlan } from './lib/store';
+import { getState, replacePlan, useAppState } from './lib/store';
 import { Landing } from './pages/Landing';
 import { PlanEditor } from './pages/PlanEditor';
 import { CheckPage } from './pages/CheckPage';
@@ -16,6 +16,7 @@ export default function App() {
   const [share, setShare] = useState(false);
   const [toast, setToast] = useState('');
   const section = route.path[0] ?? '';
+  const { started } = useAppState();
 
   // Geteilten Plan aus dem Link übernehmen
   useEffect(() => {
@@ -51,7 +52,7 @@ export default function App() {
     const titles: Record<string, string> = {
       '': 'Finanzkompass – Finanzplan bis zur Pension und darüber hinaus',
       plan: 'Plan erfassen – Finanzkompass',
-      check: 'Wo stehe ich? – Finanzkompass',
+      check: 'Ist-Check – Finanzkompass',
       reise: 'Lebenssimulation – Finanzkompass',
       info: 'Infos – Finanzkompass'
     };
@@ -60,14 +61,14 @@ export default function App() {
 
   const nav = [
     { id: 'plan', label: 'Plan erfassen', to: 'plan/haushalt' },
-    { id: 'check', label: 'Wo stehe ich?', to: 'check' },
+    { id: 'check', label: 'Ist-Check', to: 'check' },
     { id: 'reise', label: 'Lebenssimulation', to: 'reise' },
     { id: 'info', label: 'Infos', to: 'info/heutige-franken' }
   ];
 
   return (
     <div className="app">
-      <header className="topbar ae-nav">
+      <header className="topbar">
         <div className="topbar-inner">
           <a className="brand" href={href('')}>
             <BrandMark />
@@ -80,6 +81,7 @@ export default function App() {
               </a>
             ))}
           </nav>
+          {started && (
           <div className="topbar-actions">
             <button className="btn btn-secondary btn-small" onClick={() => setShare(true)}>
               <Share2 size={16} aria-hidden="true" />
@@ -87,6 +89,7 @@ export default function App() {
               <span className="visually-hidden"> (Plan speichern und teilen)</span>
             </button>
           </div>
+          )}
         </div>
       </header>
 
@@ -98,8 +101,7 @@ export default function App() {
         {section === 'info' && <InfoPage topic={route.path[1] ?? 'heutige-franken'} />}
       </main>
 
-      <hr className="ae-horizon page-horizon" aria-hidden="true" />
-      <footer className="footer ae-pattern ae-pattern--schindel">
+      <footer className="footer">
         <div className="footer-inner">
           <span>
             Finanzkompass ist ein kostenloses Planungswerkzeug und keine Finanz-, Steuer- oder Anlageberatung. Alle Angaben ohne Gewähr.
