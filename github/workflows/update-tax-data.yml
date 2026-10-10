@@ -1,0 +1,51 @@
+# Holt die Steuerdaten (Tarife, Abzüge, Steuerfüsse aller Gemeinden) bei der ESTV
+# und schlägt die Aktualisierung als Pull Request vor.
+name: Steuerdaten aktualisieren
+
+on:
+  schedule:
+    # Januar bis Mai jeweils am 1. des Monats: neue Steuerjahre erscheinen im Frühling
+    - cron: '0 5 1 1-5 *'
+  workflow_dispatch:
+    inputs:
+      year:
+        description: 'Steuerjahr (leer = aktuelles Jahr)'
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Daten bei der ESTV laden
+        id: fetch
+        run: |
+          YEAR="${{ github.event.inputs.year }}"
+          if [ -z "$YEAR" ]; then YEAR=$(date +%Y); fi
+          echo "year=$YEAR" >> "$GITHUB_OUTPUT"
+          if node scripts/import-tax-data.mjs "$YEAR" --download; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Für $YEAR sind noch keine Daten verfügbar."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Pull Request erstellen
+        if: steps.fetch.outputs.ok == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: steuerdaten-${{ steps.fetch.outputs.year }}
+          title: Steuerdaten ${{ steps.fetch.outputs.year }} aktualisieren
+          commit-message: Steuerdaten ${{ steps.fetch.outputs.year }} von der ESTV
+          body: |
+            Automatisch geladen über die Schnittstelle des ESTV-Steuerrechners.
+            Bitte vor dem Mergen prüfen:
+            - Tests laufen durch (`npm test`)
+            - Eckwerte der Sozialversicherungen in `src/engine/params.ts` für das neue Jahr anpassen
+            - Reduktion pro Kind in `src/engine/tax/incomeTax.ts` (Elterntarif Bund) prüfen
